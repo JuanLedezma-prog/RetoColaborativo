@@ -1,4 +1,5 @@
 package com.juanaraujo.taller_colaborativo
+
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -10,7 +11,6 @@ interface ApiService {
 
     @POST("auth/login")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
-
 
     @GET("auth/me")
     suspend fun getCurrentUser(
