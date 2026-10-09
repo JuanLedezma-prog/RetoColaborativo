@@ -18,3 +18,22 @@ class MainActivity : AppCompatActivity() {
     }
 
 // ---------- PASO A: POST de login ----------
+private fun hacerLogin(usuario: String, clave: String) {
+    // lifecycleScope.launch = ejecuta en una corrutina (sin congelar la app)
+    lifecycleScope.launch {
+        try {
+            val resp = RetrofitClient.api.login(
+                LoginRequest(usuario, clave)
+            )
+            if (resp.isSuccessful) {
+                token = resp.body()?.accessToken   // ← guardamos el token
+                Log.d("API", "Token recibido: $token")
+                obtenerUsuario()                  // seguimos al GET
+            } else {
+                Log.e("API", "Login falló: ${resp.code()}")
+            }
+        } catch (e: Exception) {
+            Log.e("API", "Error de red: ${e.message}")
+        }
+    }
+}
